@@ -1,0 +1,56 @@
+app.background = 'lavender'
+
+Rect(0, 215, 400, 215, fill='tan')
+Polygon(20, 215, 0, 280, 0, 400, 400, 400, 400, 280, 380, 215, fill=rgb(60, 60, 60))
+
+burner = Oval(200, 320, 280, 100)
+Oval(200, 320, 250, 80, fill=None, border=rgb(60, 60, 60), borderWidth=10)
+Oval(200, 320, 180, 35, fill=None, border=rgb(60, 60, 60), borderWidth=10)
+
+lid = Group(
+    Oval(200, 165, 200, 50, fill=gradient('silver', 'dimGrey', start='left')),
+    Oval(200, 155, 35, 25, fill=gradient('dimGrey', 'black', start='left')),
+    )
+teapot = Group(
+    Oval(200, 165, 245, 180, fill=None,
+         border=gradient('dimGrey', 'black', start='left'), borderWidth=10),
+    Oval(200, 245, 250, 200,
+          fill=gradient('silver', 'dimGrey', 'dimGrey', start='left')),
+    Oval(200, 165, 200, 40, fill='lavender'),
+    Oval(200, 175, 180, 25, border='grey', borderWidth=3),
+    Oval(200, 178, 150, 13, fill='steelBlue'),
+    lid,
+    Line(95, 225, 55, 175, fill='silver', lineWidth=25),
+    Line(310, 195, 295, 225, lineWidth=10)
+    )
+teapot.temp = 0
+teapot.shakeDir = 1
+
+def shakeTeapot():
+    dA = (teapot.temp - 90) / 15
+    teapot.rotateAngle = dA * teapot.shakeDir
+
+    teapot.shakeDir *= -1
+
+def burstTeapot():
+    teapot.rotateAngle = 0 
+    lid.rotateAngle = -30
+    lid.centerX = 75
+    lid.centerY = 50
+    app.paused = True
+
+def onStep():
+    teapot.temp += 15 / 30
+    
+    if teapot.temp>=125:
+        burstTeapot()
+    elif teapot.temp > 75 : shakeTeapot()
+    # Increase the teapot's temperature by 15 every second. When the temperature
+    # is over 125, the teapot should burst. If it is over 75, the teapot should
+    # shake.
+    ### (HINT: How much should the temperature increase on one onStep call,
+    #          if it increases by 15 each second?)
+    ### Place Your Code Here ###
+
+    # Changes the burner's color as it gets hotter.
+    burner.fill = rgb(2 * teapot.temp, 0, 0)
