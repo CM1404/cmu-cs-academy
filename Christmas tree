@@ -1,0 +1,91 @@
+app.background = 'rosyBrown'
+
+# background
+Line(0, 150, 400, 150, fill='paleVioletRed', lineWidth=300, dashes=(0.5, 20))
+Rect(0, 300, 400, 100, fill='peru')
+Line(0, 300, 400, 300)
+Rect(100, 50, 200, 200, fill=gradient('steelBlue', 'indigo', start='top-left'),
+     border='black')
+Line(100, 150, 300, 150)
+
+# presents
+Rect(120, 360, 50, 30, fill='lightPink')
+Line(145, 360, 145, 390, fill='orange', lineWidth=10)
+Rect(230, 340, 40, 50, fill='teal')
+Line(230, 365, 270, 365, fill='orange', lineWidth=10)
+
+# tree
+Rect(200, 320, 50, 70, fill='saddleBrown', align='top')
+Polygon(200, 40, 80, 370, 180, 340, 200, 370, 220, 340, 320, 370, fill='oliveDrab')
+Polygon(200, 40, 90, 300, 180, 270, 200, 300, 220, 270, 310, 300, fill='darkGreen')
+Polygon(200, 40, 100, 240, 180, 210, 200, 240, 220, 210, 300, 240, fill='green')
+Polygon(200, 40, 120, 180, 180, 150, 200, 180, 220, 150, 280, 180,
+        fill='forestGreen')
+
+# wires
+Line(235, 102, 120, 180)
+Line(143, 140, 281, 202)
+Line(271, 182, 113, 251)
+Line(112, 216, 310, 300)
+Line(294, 262, 93, 339)
+
+# bulbs group
+bulbs = Group()
+
+def drawBulb(x, topY, angle, color):
+    light = Group(
+        Star(200, 200, 30, 150, fill=color, roundness=20, opacity=0),
+        Circle(200, 200, 11, fill=color, border='black', opacity=0)
+        )
+    bulb = Group(
+        Rect(200, 187, 10, 15, align='top'),
+        Circle(200, 200, 11, fill='lightGrey', border='black'),
+        light,
+        Oval(197, 196, 3, 6, fill=None, border='black', borderWidth=0.7),
+        Oval(200, 196, 3, 6, fill=None, border='black', borderWidth=0.7),
+        Oval(203, 196, 3, 6, fill=None, border='black', borderWidth=0.7)
+        )
+
+    # Stores the light of the bulb as a custom property.
+    bulb.light = light
+
+    bulb.top = topY
+    bulb.centerX = x
+    bulb.rotateAngle = angle
+    bulbs.add(bulb)
+
+# draw the bulbs on the tree
+drawBulb(230, 90, -30, 'gold')
+drawBulb(200, 110, -30, 'hotPink')
+drawBulb(170, 130, -30, 'mediumTurquoise')
+drawBulb(140, 150, -30, 'mediumPurple')
+drawBulb(147, 127, 25, 'gold')
+drawBulb(187, 145, 25, 'hotPink')
+drawBulb(227, 162, 25, 'mediumTurquoise')
+drawBulb(267, 180, 25, 'mediumPurple')
+drawBulb(240, 180, -25, 'gold')
+drawBulb(200, 198, -25, 'hotPink')
+drawBulb(160, 216, -25, 'mediumTurquoise')
+drawBulb(120, 232, -25, 'mediumPurple')
+drawBulb(130, 208, 25, 'gold')
+drawBulb(180, 230, 25, 'hotPink')
+drawBulb(230, 250, 25, 'mediumTurquoise')
+drawBulb(280, 270, 25, 'mediumPurple')
+drawBulb(285, 250, -25, 'gold')
+drawBulb(240, 270, -25, 'hotPink')
+drawBulb(195, 285, -25, 'mediumTurquoise')
+drawBulb(150, 300, -25, 'mediumPurple')
+drawBulb(105, 318, -25, 'gold')
+
+def onMousePress(mouseX, mouseY):
+    # When a bulb clicked, toggle it on and off by changing the light's opacity.
+    ### (HINT: Loop through all of the bulbs and check if any of them are
+    #          clicked on.)
+    ### Place Your Code Here ###
+    for bulb in bulbs.children:
+        if(bulb.hits(mouseX,mouseY)):
+            if(bulb.light.opacity < 100):
+                bulb.light.opacity = 100
+            else:
+                bulb.light.opacity = 0
+    pass
